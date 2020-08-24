@@ -105,7 +105,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
     void mThreadSleep(){
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
 //            mIntent();
         } catch (InterruptedException e) {
             e.printStackTrace();
