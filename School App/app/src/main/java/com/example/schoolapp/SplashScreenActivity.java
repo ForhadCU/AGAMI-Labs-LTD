@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
@@ -27,10 +28,11 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.Objects;
 
 public class SplashScreenActivity extends AppCompatActivity {
+    private static final String TAG = "My Tracing : ";
     String strRes;
     private RequestQueue requestQueue;
     private String myUrl = "http://www.google.com";
-    private boolean requestSuccess = false;
+    private boolean requestSuccess;
 
     private ProgressBar progressBar;
     private TextView textViewRetry;
@@ -57,17 +59,38 @@ public class SplashScreenActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                Log.d(TAG, "run: into the thread run ");
                 mGetResponse();
                 mThreadSleep();
-                if (requestSuccess)
-                        mIntent();
-                else
+                if (mGetResponse())
+                {
+                    mIntent();
+                }
+/*                else if (!mGetResponse())
                 {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            progressBar.setVisibility(View.GONE);
-                            textViewRetry.setVisibility(View.VISIBLE);
+                            textViewRetry.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    textViewRetry.setVisibility(View.GONE);
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    mGetResponse();
+//                                    if (mGetResponse())
+                                        Log.d(TAG, "onClick: mGetResponse returns True");
+                                }
+                            });
+
+                        }
+                    });
+
+                }*/
+    /*            else
+                {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
 
                             textViewRetry.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -90,7 +113,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     });
 
 
-                }
+                }*/
             }
         });
         thread.start();
@@ -105,7 +128,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
     void mThreadSleep(){
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
 //            mIntent();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -113,7 +136,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
 
-    private void mGetResponse() {
+    private boolean mGetResponse() {
             StringRequest stringRequest = new StringRequest(Request.Method.GET, myUrl,
                     new Response.Listener<String>() {
                         @Override
@@ -130,7 +153,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                             editor.putInt("number", count);
                             editor.apply();
                             requestSuccess = true;
-                            Toast.makeText(SplashScreenActivity.this, "Connected", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "onResponse: called");
 //                            requestQueue.stop();
 
                         }
@@ -165,8 +188,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                 }
             });
             requestQueue.add(stringRequest);
-
-
+        Log.d(TAG, "mGetResponse: requestSuccess return");
+            return requestSuccess;
     }
 
 
