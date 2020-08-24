@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashScreenActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgVIcon"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerInParent="true"
+        />
+
+<!--
+    <ProgressBar
+        android:id="@+id/launcherProgressBarId"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_below="@+id/imgVIcon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:progressBackgroundTint="#304FFE"
+        android:progressTint="#006321" />
+-->
+    <ProgressBar
+        android:id="@+id/launcherProgressBarId"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/imgVIcon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:indeterminateDrawable="@drawable/progressbar_style"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txV_retry"
+        android:text="Retry"
+        android:textAllCaps="false"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/imgVIcon"
+        android:layout_centerHorizontal="true"
+        android:textStyle="italic"
+        android:visibility="gone"
+
+        />
+
+
+
+    <TextView
+        android:id="@+id/txtV_developed_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txtV_devName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:text="developed by"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:id="@+id/txtV_devName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:text="AGAMILabs Limited"
+        android:textColor="#353535"
+
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
