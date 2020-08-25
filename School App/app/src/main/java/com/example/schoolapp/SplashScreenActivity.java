@@ -49,6 +49,8 @@ public class SplashScreenActivity extends AppCompatActivity implements Response.
         decorView.setSystemUiVisibility(uiOptions); //End
         setContentView(R.layout.activity_splash_screen);
 
+
+
         progressBar = findViewById(R.id.launcherProgressBarId);
         textViewRetry = findViewById(R.id.txV_retry);
 
@@ -193,9 +195,12 @@ public class SplashScreenActivity extends AppCompatActivity implements Response.
     @Override
     public void onResponse(String response) {
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("data", response.substring(0, 500));
+        editor.apply();
 
-            //Process goes here
-//        mIntent(Registration.class);
+        mIntent(RegistrationActivity.class);
         progressBar.setVisibility(View.GONE);
     }
 
