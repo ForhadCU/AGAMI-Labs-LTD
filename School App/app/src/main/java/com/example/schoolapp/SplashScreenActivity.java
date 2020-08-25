@@ -30,7 +30,7 @@ import java.util.Objects;
 public class SplashScreenActivity extends AppCompatActivity {
     private static final String TAG = "My Tracing : ";
     String strRes;
-    private RequestQueue requestQueue;
+//    private RequestQueue requestQueue;
     private String myUrl = "http://www.google.com";
     private boolean requestSuccess;
 
@@ -51,10 +51,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.launcherProgressBarId);
         textViewRetry = findViewById(R.id.txV_retry);
 
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024*1024);
+      /*  Cache cache = new DiskBasedCache(getCacheDir(), 1024*1024);
         Network network = new BasicNetwork(new HurlStack());
         requestQueue = new RequestQueue(cache, network);
-        requestQueue.start();
+        requestQueue.start();*/
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -66,6 +66,32 @@ public class SplashScreenActivity extends AppCompatActivity {
                 {
                     mIntent();
                 }
+                else
+                {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            textViewRetry.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    textViewRetry.setVisibility(View.GONE);
+                                    progressBar.setVisibility(View.VISIBLE);
+
+                                    mGetResponse();
+                                    if (requestSuccess)
+                                    {
+//                                        mThreadSleep();
+                                        mIntent();
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+
+                }
+
 /*                else if (!mGetResponse())
                 {
                     runOnUiThread(new Runnable() {
@@ -84,34 +110,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                         }
                     });
-
-                }*/
-    /*            else
-                {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            textViewRetry.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    textViewRetry.setVisibility(View.GONE);
-                                    progressBar.setVisibility(View.VISIBLE);
-
-                                    mGetResponse();
-                                    if (requestSuccess)
-                                    {
-//                                        mThreadSleep();
-                                        mIntent();
-                                    }
-
-
-
-                                }
-                            });
-                        }
-                    });
-
 
                 }*/
             }
@@ -187,7 +185,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                 }
             });
-            requestQueue.add(stringRequest);
+//            requestQueue.add(stringRequest);
+        MySingletonModel.getInstance(SplashScreenActivity.this).addToRequestQueue(stringRequest);
         Log.d(TAG, "mGetResponse: requestSuccess return");
             return requestSuccess;
     }

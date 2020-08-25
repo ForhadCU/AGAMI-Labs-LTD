@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         String string = sharedPreferences.getString("count", "default");
         int number = sharedPreferences.getInt("number", 0);
 
-        textView.setText(number+"");
-        Toast.makeText(getApplicationContext(), string+"", Toast.LENGTH_LONG).show();
+        textView.setText(string);
+        Toast.makeText(getApplicationContext(), number+"", Toast.LENGTH_LONG).show();
     }
 }
