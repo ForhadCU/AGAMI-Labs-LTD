@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtV_regAct"
         android:layout_centerInParent="true"
+        android:layout_margin="25dp"
         />
 
 </RelativeLayout>

@@ -49,8 +49,6 @@ public class SplashScreenActivity extends AppCompatActivity implements Response.
         decorView.setSystemUiVisibility(uiOptions); //End
         setContentView(R.layout.activity_splash_screen);
 
-
-
         progressBar = findViewById(R.id.launcherProgressBarId);
         textViewRetry = findViewById(R.id.txV_retry);
 
@@ -59,14 +57,8 @@ public class SplashScreenActivity extends AppCompatActivity implements Response.
             public void onClick(View v) {
                 textViewRetry.setVisibility(View.GONE);
                 mGetResponse();
-
             }
         });
-
-       /* Cache cache = new DiskBasedCache(getCacheDir(), 1024*1024);
-        Network network = new BasicNetwork(new HurlStack());
-        requestQueue = new RequestQueue(cache, network);
-        requestQueue.start();*/
 
        //1. User er data ache kina check kora, jodi thake taile hander er code run e third Activity te jaoar code kore dite hove.
         //2. jodi na thake,, taile getResponse call
@@ -79,84 +71,13 @@ public class SplashScreenActivity extends AppCompatActivity implements Response.
                 @Override
                 public void run() {
                     Log.e(TAG, "run: into the Handler ");
-                    mIntent(MainActivity.class);
+                    mIntent(RegistrationActivity.class);
                 }
-            }, 5000);
+            }, 3000);
         }else {
             mGetResponse();
         }
-
-
-
-
-//        Toast.makeText(this, "After initializing handler", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onCreate: After initializing handler");
-
-
-/*
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "run: into the thread run ");
-                mGetResponse();
-                mThreadSleep();
-                if (mGetResponse())
-                {
-                    mIntent();
-                }
-                else
-                {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            textViewRetry.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    textViewRetry.setVisibility(View.GONE);
-                                    progressBar.setVisibility(View.VISIBLE);
-
-                                    mGetResponse();
-                                    if (requestSuccess)
-                                    {
-//                                        mThreadSleep();
-                                        mIntent();
-                                    }
-                                }
-                            });
-                        }
-                    });
-
-
-                }
-
-*/
-/*                else if (!mGetResponse())
-                {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            textViewRetry.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    textViewRetry.setVisibility(View.GONE);
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    mGetResponse();
-//                                    if (mGetResponse())
-                                        Log.d(TAG, "onClick: mGetResponse returns True");
-                                }
-                            });
-
-                        }
-                    });
-
-                }*//*
-
-            }
-        });
-*/
-//        thread.start();
-
     }
 
 
@@ -167,23 +88,11 @@ public class SplashScreenActivity extends AppCompatActivity implements Response.
         finish();
     }
 
-/*    void mThreadSleep(){
-        try {
-            Thread.sleep(2000);
-//            mIntent();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-
-    private boolean mGetResponse() {
+    private void mGetResponse() {
             StringRequest stringRequest = new StringRequest(Request.Method.GET, myUrl, this, this);
             progressBar.setVisibility(View.VISIBLE);
-//            requestQueue.add(stringRequest);
+
         MySingletonModel.getInstance(SplashScreenActivity.this).addToRequestQueue(stringRequest);
-        Log.d(TAG, "mGetResponse: requestSuccess return");
-            return requestSuccess;
     }
 
     @Override
@@ -200,8 +109,8 @@ public class SplashScreenActivity extends AppCompatActivity implements Response.
         editor.putString("data", response.substring(0, 500));
         editor.apply();
 
-        mIntent(RegistrationActivity.class);
         progressBar.setVisibility(View.GONE);
+        mIntent(RegistrationActivity.class);
     }
 
 /*    private Response.Listener successListener = new Response.Listener<String>() {
