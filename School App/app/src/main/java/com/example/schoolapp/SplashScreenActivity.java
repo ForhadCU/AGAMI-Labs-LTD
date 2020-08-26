@@ -26,17 +26,23 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class SplashScreenActivity extends AppCompatActivity implements Response.ErrorListener, Response.Listener<String> {
     private static final String TAG = "My Tracing : ";
     String strRes;
 //    private RequestQueue requestQueue;
-    private String myUrl = "http://www.google.com";
-    private boolean requestSuccess;
+//    private String myUrl = "http://gorest.co.in/public-api/users/123";
+    private String myUrl = "http://google.com";
 
     private ProgressBar progressBar;
     private TextView textViewRetry;
+
+    DbHelper dbHelper;
 
 
     @Override
@@ -51,6 +57,8 @@ public class SplashScreenActivity extends AppCompatActivity implements Response.
 
         progressBar = findViewById(R.id.launcherProgressBarId);
         textViewRetry = findViewById(R.id.txV_retry);
+
+        dbHelper = new DbHelper(this);
 
         textViewRetry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +105,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Response.
 
     @Override
     public void onErrorResponse(VolleyError error) {
+        Log.d(TAG, "onErrorResponse: "+error.toString());
         textViewRetry.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
@@ -104,10 +113,20 @@ public class SplashScreenActivity extends AppCompatActivity implements Response.
     @Override
     public void onResponse(String response) {
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+       /* SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("data", response.substring(0, 500));
-        editor.apply();
+//        editor.putString("data", data);
+        editor.putString("data", response.substring(0, 5000));
+        editor.apply();*/
+
+        String[] deptNameArrayList = {"CSE", "MATH", "PHYSICS"};
+        String[] sessionArrayList = {"2017-2018", "2018-2019", "2020-2021"};
+        long id = dbHelper.saveData(deptNameArrayList, sessionArrayList);
+        if (id > -1) {
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+        }else
+            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
 
         progressBar.setVisibility(View.GONE);
         mIntent(RegistrationActivity.class);
