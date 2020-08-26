@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         String string = sharedPreferences.getString("count", "default");
-        int number = sharedPreferences.getInt("number", 0);
+        int number = sharedPreferences.getInt("number", 2);
 
         textView.setText(string);
         Toast.makeText(getApplicationContext(), number+"", Toast.LENGTH_LONG).show();
